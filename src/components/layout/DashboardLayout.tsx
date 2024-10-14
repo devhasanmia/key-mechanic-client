@@ -1,5 +1,6 @@
-import { Layout, Menu } from "antd";
-import MessageList from '../../pages/MassageList';
+import { Badge, Button, Layout, Menu } from "antd";
+
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -7,27 +8,33 @@ const { Header, Content, Footer, Sider } = Layout;
 const items = [
   {
     key: "dashboard",
-    label: "Dashboard",
+    label: <NavLink to={"/dashboard"}>Dashboard</NavLink>,
   },
   {
     key: "Product Manager",
     label: "Product Manager",
+    children: [
+      {
+        key: "Product List",
+        label: <NavLink to={"/dashboard/product-list"}>Product List</NavLink>
+      },
+      {
+        key: "add-product",
+        label: <NavLink to={"/dashboard/add-product"}>Add Product</NavLink>
+      },
+    ]
   },
   {
     key: "order-manager",
     label: "Order Manager"
   },
-  {
-    key: "Contact Us",
-    label: "Contact Us"
-  }
 ];
 
-const Dashboard = () => {
+const DashboardLayout = () => {
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout >
       <Sider
-        style={{ background: "#001529" , minWidth: "230px"}}
+        style={{ background: "#001529", minWidth: "230px" }}
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={(broken) => {
@@ -37,7 +44,7 @@ const Dashboard = () => {
           console.log(collapsed, type);
         }}
       >
-        <div
+        <Link to={"/"}><div
           style={{
             color: "white",
             padding: "16px",
@@ -50,7 +57,7 @@ const Dashboard = () => {
           <p style={{ margin: 0 }}>
             Key <span style={{ color: "#1677ff" }}>Mechanic</span>
           </p>
-        </div>
+        </div></Link>
         <Menu
           theme="dark"
           mode="inline"
@@ -64,7 +71,11 @@ const Dashboard = () => {
         />
       </Sider>
       <Layout>
-        <Header></Header>
+        <Header>
+          <div style={{ textAlign: "right" }}> <Badge count={5}>
+            <Link to={"/dashboard/messages"}><Button type="primary">Message</Button></Link>
+          </Badge></div>
+        </Header>
         <Content style={{ margin: "24px 16px 0", background: "#f0f2f5" }}>
           <div
             style={{
@@ -72,15 +83,15 @@ const Dashboard = () => {
               minHeight: 360,
             }}
           >
-        <MessageList/>
+            <Outlet />
           </div>
         </Content>
         <Footer style={{ textAlign: "center", background: "#f0f2f5" }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          &copy; {new Date().getFullYear()} Key Mechanic All rights reserved.
         </Footer>
       </Layout>
     </Layout>
   );
 };
 
-export default Dashboard;
+export default DashboardLayout;

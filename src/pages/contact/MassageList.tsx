@@ -1,5 +1,5 @@
 import { Table } from "antd";
-import { useGetAllMessageQuery } from "../redux/features/contact/contactApi";
+import { useGetAllMessageQuery } from "../../redux/features/contact/contactApi";
 
 const MessageList = () => {
   const columns = [
@@ -28,7 +28,10 @@ const MessageList = () => {
   if (isError || !data?.data) {
     return <p>Data Not Found</p>;
   }
-  return <Table dataSource={data.data} columns={columns}  pagination={false}/>;
+  return (
+    <div className="min-h-screen flex flex-col justify-between"><Table dataSource={data.data} columns={columns}  pagination={false}/></div>
+  )
+  
 };
 
 export default MessageList;

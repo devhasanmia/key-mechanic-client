@@ -1,11 +1,9 @@
-import Dashboard from "./components/layout/Dashboard"
+// const App = () => {
+//   return (
+//     <div>
+//     <Dashboard/>
+//     </div>
+//   )
+// }
 
-const App = () => {
-  return (
-    <div>
-    <Dashboard/>
-    </div>
-  )
-}
-
-export default App
+// export default App
