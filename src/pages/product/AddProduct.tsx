@@ -1,87 +1,93 @@
+import { SubmitHandler, useForm } from "react-hook-form";
 import InputWihtLabel from "../../components/ui/InputWithLabel";
+import Button from "../../components/ui/Button";
+import { useAddProductMutation } from "../../redux/features/product/productApi";
+
+type Inputs = {
+  image: string;
+  name: string;
+  brand: string;
+  stock: number;
+  price: number;
+  rating: number;
+  description: string;
+};
 
 const AddProduct = () => {
-    return (
-        <div className="flex justify-center items-center bg-gray-100">
-            <form className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
-                {/* Form Grid */}
-                <div className="grid grid-cols-2 gap-6">
-                    {/* Product Name */}
-                    <InputWihtLabel label="Product Name" type="text" placeholder="Enter product name" />
-                    {/* Brand */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Brand</label>
-                        <input
-                            type="text"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Enter brand name"
-                        />
-                    </div>
+  const [addProduct] = useAddProductMutation();
+  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (formData) => {
+    addProduct(formData);
+    reset();
+  };
+  return (
+    <div className="min-h-screen flex flex-col justify-between  items-center p-6  bg-gray-100">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl"
+      >
+        {/* Form Grid */}
+        <div className="grid grid-cols-2 gap-6">
+          {/* Product Name */}
+          <InputWihtLabel
+            register={register("name")}
+            label="Product Name"
+            type="text"
+            placeholder="Enter product name"
+          />
+          {/* Brand */}
+          <InputWihtLabel
+            label="Brand"
+            type="text"
+            placeholder="Enter brand name"
+            register={register("brand")}
+          />
+          {/* Stock */}
+          <InputWihtLabel
+            label="Stock"
+            type="number"
+            placeholder="Enter stock quantity"
+            register={register("stock")}
+          />
 
-                    {/* Stock */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Stock</label>
-                        <input
-                            type="number"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Enter stock quantity"
-                        />
-                    </div>
+          {/* Price */}
+          <InputWihtLabel
+            label="Price ($)"
+            type="number"
+            placeholder="Enter price"
+            register={register("price")}
+          />
+          {/* Rating */}
+          <InputWihtLabel
+            label="Rating"
+            type="number"
+            placeholder="Enter rating"
+            register={register("rating")}
+          />
+          {/* Image URL */}
+          <InputWihtLabel
+            label="Image URL"
+            type="text"
+            placeholder="Enter image Url"
+            register={register("image")}
+          />
 
-                    {/* Price */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Price ($)</label>
-                        <input
-                            type="number"
-                            step="0.01"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Enter price"
-                        />
-                    </div>
-
-                    {/* Rating */}
-                    <InputWihtLabel label="Rating" type="number" placeholder="Enter rating" />
-                    {/* <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Rating</label>
-                        <input
-                            type="number"
-                            className=" border rounded w-full py-2 px-3 text-gray-700  focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Enter rating (max 5)"
-                        />
-                    </div> */}
-
-                    {/* Image URL */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Image URL</label>
-                        <input
-                            type="text"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:shadow-outline focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Enter image URL"
-                        />
-                    </div>
-
-                    <div className="col-span-2 mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Description</label>
-                        <textarea
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Enter product description"
-                            rows={3}
-                        />
-                    </div>
-                </div>
-
-                {/* Submit Button */}
-                <div className="flex ">
-                    <button
-                        type="submit"
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                        Add Product
-                    </button>
-                </div>
-            </form>
+          <div className="col-span-2 mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Description
+            </label>
+            <textarea
+              {...register("description")}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Enter product description"
+              rows={3}
+            />
+          </div>
         </div>
-    );
+        <Button text="Add Product" type="submit" />
+      </form>
+    </div>
+  );
 };
 
 export default AddProduct;
