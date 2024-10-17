@@ -7,15 +7,30 @@ export const productApi = baseApi.injectEndpoints({
         url: "/product",
         method: "GET",
       }),
+      providesTags: ['Prod']
     }),
+
+    // Add a new product
     addProduct: builder.mutation({
       query: (data) => ({
         url: "/product",
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ['Prod']
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/product/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ['Prod'] as const,
     }),
   }),
 });
 
-export const { useGetAllProductsQuery, useAddProductMutation } = productApi;
+export const {
+  useGetAllProductsQuery,
+  useAddProductMutation,
+  useDeleteProductMutation,
+} = productApi;
